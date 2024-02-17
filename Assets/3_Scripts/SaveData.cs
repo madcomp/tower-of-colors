@@ -3,6 +3,12 @@ using System.Collections;
 
 public static class SaveData
 {
+    public static void Clear()
+    {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
+    }
+    
     public static int CurrentLevel
     {
         get {
