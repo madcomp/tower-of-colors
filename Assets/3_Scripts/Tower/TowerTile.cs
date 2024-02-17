@@ -24,7 +24,7 @@ public class TowerTile : MonoBehaviour
 
     public int Floor { get; set; }
     public int ColorIndex { get; protected set; }
-    public System.Action<TowerTile> OnTileDestroyed;
+    public System.Action<TowerTile> OnTileDisabled;
     public bool Active { get; protected set; }
 
     List<TowerTile> connectedTiles = new List<TowerTile>();
@@ -33,17 +33,22 @@ public class TowerTile : MonoBehaviour
     private bool initialized;
     private bool freezed;
 
-    protected virtual void Awake()
+    void OnEnable()
     {
         TileColorManager.Instance.OnColorListChanged += ResetColor;
     }
 
-    protected virtual void OnDestroy()
+    void OnDisable()
+    {
+        CameraShake();
+        if (TileColorManager.Instance)
+            TileColorManager.Instance.OnColorListChanged -= ResetColor;
+    }
+
+    protected virtual void CameraShake()
     {
         if (CameraShakeManager.Instance)
             CameraShakeManager.Instance.Play(0);
-        if (TileColorManager.Instance)
-            TileColorManager.Instance.OnColorListChanged -= ResetColor;
     }
 
     private void FixedUpdate()
@@ -53,7 +58,7 @@ public class TowerTile : MonoBehaviour
                 nextCheckTime = Time.time + raycastCheckInterval;
                 if (!Physics.Raycast(rigidbody.worldCenterOfMass, Vector3.down, rigidbody.worldCenterOfMass.y + 1, 1 << 9)) {
                     Active = false;
-                    OnTileDestroyed?.Invoke(this);
+                    OnTileDisabled?.Invoke(this);
                 }
             }
         } else if (!freezed) {
@@ -148,12 +153,26 @@ public class TowerTile : MonoBehaviour
         for (int i = 0; i < connectedTiles.Count; i++) {
             connectedTiles[i]?.Explode(false);
         }
-        OnTileDestroyed?.Invoke(this);
-        ParticleSystem fx = FxPool.Instance.GetPooled(explosionFx, transform.position, Quaternion.identity);
+        OnTileDisabled?.Invoke(this);
+        ParticleSystem fx = Pool.Instance.ParticleSystems.GetPooled(explosionFx, transform.position, Quaternion.identity);
         if (colorizeFx) {
             ParticleSystem.MainModule main = fx.main;
             main.startColor = TileColorManager.Instance.GetColor(ColorIndex);
         }
-        Destroy(gameObject);
+        ReturnToPool();
+    }
+
+    public void ReturnToPool()
+    {
+        Floor = 0;
+        ColorIndex = 0;
+        OnTileDisabled = null;
+        Active = false;
+        connectedTiles.Clear();
+        nextCheckTime = 0;
+        drifting = false;
+        initialized = false;
+        freezed = false;
+        gameObject.SetActive(false);
     }
 }

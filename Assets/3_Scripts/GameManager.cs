@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 enum GameState
 {
@@ -56,8 +58,8 @@ public class GameManager : Singleton<GameManager>
         Application.targetFrameRate = 60;
         animator = GetComponent<Animator>();
         animator.speed = 1.0f / Time.timeScale;
-        FxPool.Instance.EnsureQuantity(tileExplosionFx, 3);
-        FxPool.Instance.EnsureQuantity(tileDestroyFx, 30);
+        Pool.Instance.ParticleSystems.EnsureQuantity(tileExplosionFx, 3);
+        Pool.Instance.ParticleSystems.EnsureQuantity(tileDestroyFx, 30);
     }
 
     private void Start()
@@ -67,7 +69,7 @@ public class GameManager : Singleton<GameManager>
         minPercent = percentRequiredPerLevel.Evaluate(SaveData.CurrentLevel);
         tower.FloorCount = Mathf.FloorToInt(floorsPerLevel.Evaluate(SaveData.CurrentLevel));
         tower.SpecialTileChance = specialTileChancePerLevel.Evaluate(SaveData.CurrentLevel);
-        tower.OnTileDestroyedCallback += OnTileDestroyed;
+        tower.OnTileDisabledCallback += OnTileDisabled;
         tower.BuildTower();
 
         tileCount = tower.FloorCount * tower.TileCountPerFloor;
@@ -101,7 +103,7 @@ public class GameManager : Singleton<GameManager>
         animator.SetInteger("GameState", (int)state);
     }
 
-    public void OnTileDestroyed(TowerTile tile)
+    public void OnTileDisabled(TowerTile tile)
     {
         if (gameState == GameState.Playing || gameState == GameState.WaitingLose) {
             comboUI.CountCombo(tile.transform.position);
@@ -125,5 +127,4 @@ public class GameManager : Singleton<GameManager>
         SetGameState(GameState.Playing);
         tower.StartGame();
     }
-
 }
