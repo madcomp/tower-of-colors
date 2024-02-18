@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MissionsManager : MonoBehaviour
 {
+    [SerializeField] private GameObject[] gameObjectsActivableByMissionsConfig;
     [SerializeField] private Currency[] currencies;
     [SerializeField] private RewardCurrencySettings[] rewardsCurrencySettings;
     [SerializeField] private MissionObjectiveSettings[] missionObjectivesSettings;
@@ -74,6 +75,11 @@ public class MissionsManager : MonoBehaviour
         foreach (var currencyUI in currencyUis)
         {
             currencyUI.Setup();
+        }
+
+        foreach (var gameObjectActivableByMissionsConfig in gameObjectsActivableByMissionsConfig)
+        {
+            gameObjectActivableByMissionsConfig.SetActive(RemoteConfig.MISSIONS_ENABLED);
         }
     }
 
