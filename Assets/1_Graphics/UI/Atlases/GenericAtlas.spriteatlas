@@ -35,11 +35,11 @@ SpriteAtlas:
       m_ForceMaximumCompressionQuality_BC6H_BC7: 0
     packingSettings:
       serializedVersion: 2
-      padding: 4
+      padding: 8
       blockOffset: 1
       allowAlphaSplitting: 0
       enableRotation: 1
-      enableTightPacking: 1
+      enableTightPacking: 0
       enableAlphaDilation: 0
     secondaryTextureSettings: {}
     variantMultiplier: 1
@@ -51,9 +51,15 @@ SpriteAtlas:
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 5b17af609693e5043909a39af2562f45, type: 3}
+  - {fileID: 21300000, guid: bc71ad0207bedd44fac456321601fa63, type: 3}
   - {fileID: 21300000, guid: fc9461647ccfcb74599894fa38cae5e0, type: 3}
   - {fileID: 21300000, guid: 40ee5035ca44d29499587ae873ccf91f, type: 3}
+  - {fileID: 21300000, guid: 891c8c2655abf72488faf4a204962d61, type: 3}
+  - {fileID: 21300000, guid: c899db66b2ff374429e7b526e31a4fe6, type: 3}
+  - {fileID: 21300000, guid: 49cf6b86baceb554c8e786d10949bc03, type: 3}
   - {fileID: 21300000, guid: 805c952828626d6429228839b8197da2, type: 3}
+  - {fileID: 21300000, guid: 903c0cb970eaf4a45a87b4d81f1a2910, type: 3}
+  - {fileID: 21300000, guid: 225e95da8f42cec4db65dd9c584db74c, type: 3}
   - {fileID: 21300000, guid: ce59c0fb95280884bb5755db6b9ac64c, type: 3}
   - {fileID: 21300000, guid: 3db1cd9c099ac0141969487ca105dbe0, type: 3}
   - {fileID: 21300000, guid: 1881d50d27ba1e84280ec37f3675c0af, type: 3}
@@ -61,9 +67,15 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 61ecdded871dc5c4b9de3ce27684988f, type: 3}
   m_PackedSpriteNamesToIndex:
   - slider-border
+  - missions
   - eye-open
   - slider-handle
+  - gem
+  - fill-rounded-corner-y
+  - white
   - smartphone-vibration
+  - gold
+  - fill-rounded-corner-x
   - eye-close
   - settings
   - smartphone

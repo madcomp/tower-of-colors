@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4982acf9634345545a3c6e878ae4183b, type: 3}
+  m_Name: RewardCurrencySettings_2_Medium
+  m_EditorClassIdentifier: 
+  difficulty: 1
+  possibleCurrencyAmounts:
+  - currency: {fileID: 11400000, guid: 114a1318266440348b1bf290db18ea0e, type: 2}
+    amount: 10
+  - currency: {fileID: 11400000, guid: 635391cacfd80434a8e1eb79e9de2552, type: 2}
+    amount: 25

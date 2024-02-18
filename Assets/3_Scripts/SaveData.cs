@@ -16,6 +16,7 @@ public static class SaveData
         }
         set {
             PlayerPrefs.SetInt("CurrentLevel", value);
+            PlayerPrefs.Save();
         }
     }
 
@@ -26,6 +27,7 @@ public static class SaveData
         }
         set {
             PlayerPrefs.SetFloat("PreviousHighscore", value);
+            PlayerPrefs.Save();
         }
     }
 
@@ -36,6 +38,7 @@ public static class SaveData
         }
         set {
             PlayerPrefs.SetInt("CurrentColorList", value);
+            PlayerPrefs.Save();
         }
     }
 
@@ -46,6 +49,18 @@ public static class SaveData
         }
         set {
             PlayerPrefs.SetInt("VibrationEnabled", value);
+            PlayerPrefs.Save();
+        }
+    }
+    
+    public static string CurrentMissionsData
+    {
+        get {
+            return PlayerPrefs.GetString("MissionsData", "");
+        }
+        set {
+            PlayerPrefs.SetString("MissionsData", value);
+            PlayerPrefs.Save();
         }
     }
 }
