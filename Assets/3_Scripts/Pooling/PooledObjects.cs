@@ -25,6 +25,10 @@ public class PooledObjects<T> where T : Component
 
     public T GetPooled(T prototype, Vector3 position, Quaternion rotation, Transform parent = null)
     {
+        if (!Application.isPlaying)
+        {
+            return Object.Instantiate(prototype, position, rotation, parent);
+        }
         var pool = GetOrCreatePool(prototype);
         T unused = pool.Find(x => !x.gameObject.activeSelf);
         if (!unused) {
