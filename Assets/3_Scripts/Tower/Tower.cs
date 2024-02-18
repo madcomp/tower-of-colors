@@ -19,6 +19,7 @@ public class Tower : MonoBehaviour
     public Transform CameraTarget;
 
     private List<List<TowerTile>> tilesByFloor;
+    private List<TowerTile> removedTiles;
     private int currentFloor = -1;
     private int maxFloor = 0;
 
@@ -73,10 +74,14 @@ public class Tower : MonoBehaviour
         for (int i = 1; i < PlayableFloors; i++) {
             SetFloorActive(currentFloor + i, true);
         }
+
+        removedTiles = new List<TowerTile>();
     }
 
     public void OnTileDisabled(TowerTile disabledTile)
     {
+        removedTiles.Add(disabledTile);
+        
         if (maxFloor > PlayableFloors - 1 && tilesByFloor != null) {
             float checkHeight = (maxFloor - 1) * TileHeight + TileHeight * 0.9f;
             float maxHeight = 0;
@@ -117,6 +122,18 @@ public class Tower : MonoBehaviour
                 tileList.Clear();
             }
             tilesByFloor.Clear();
+        }
+
+        if (removedTiles != null)
+        {
+            foreach (var tile in removedTiles)
+            {
+                if (tile != null && tile.gameObject.activeSelf)
+                {
+                    tile.ReturnToPool();
+                }
+            }
+            removedTiles.Clear();
         }
     }
 
