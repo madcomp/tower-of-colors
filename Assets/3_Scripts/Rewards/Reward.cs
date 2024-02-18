@@ -10,7 +10,7 @@ public abstract class Reward
     public static Reward ParseData(Context context, string data)
     {
         var parts = data.Split("|");
-        if (parts.Length < 2)
+        if (parts.Length < 3)
         {
             Debug.LogError("Corrupted reward data");
         }
@@ -24,11 +24,26 @@ public abstract class Reward
             Debug.LogError("Corrupted reward amount");
             return null;
         }
+        if (!int.TryParse(parts[2], NumberStyles.Integer, CultureInfo.InvariantCulture, out int collected))
+        {
+            Debug.LogError("Corrupted reward collect state");
+            return null;
+        }
         var currency = context.GetCurrency(saveId);
-        return new RewardCurrency(currency, amount);
+        return new RewardCurrency(currency, amount, collected != 0);
     }
-    
-    public abstract void Consume(Player player);
+
+    public System.Action OnCollect;
+
+    protected bool _collected;
+
+    public abstract void Collect();
+    public bool IsCollected() => _collected;
     public abstract void SetupUI(Image image, TMP_Text text);
     public abstract string ToData();
+
+    protected Reward(bool collected)
+    {
+        _collected = collected;
+    }
 }

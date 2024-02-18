@@ -7,6 +7,7 @@ public class MissionObjectiveSettings : ScriptableObject
 {
     [SerializeField] private Mission.Objective objective;
     [SerializeField] private string description;
+    [SerializeField] private string descriptionProgress;
     [SerializeField] private AnimationCurve xPerLevelOnEasy;
     [SerializeField] private AnimationCurve xPerLevelOnMedium;
     [SerializeField] private AnimationCurve xPerLevelOnHard;
@@ -17,6 +18,8 @@ public class MissionObjectiveSettings : ScriptableObject
     public Mission.Objective Objective => objective;
     
     public string Description => description;
+    
+    public string DescriptionProgress => descriptionProgress;
 
     public AnimationCurve XPerLevel(Mission.Difficulty difficulty)
     {

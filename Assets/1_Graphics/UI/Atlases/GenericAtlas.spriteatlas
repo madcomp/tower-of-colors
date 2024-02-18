@@ -61,6 +61,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 903c0cb970eaf4a45a87b4d81f1a2910, type: 3}
   - {fileID: 21300000, guid: 225e95da8f42cec4db65dd9c584db74c, type: 3}
   - {fileID: 21300000, guid: ce59c0fb95280884bb5755db6b9ac64c, type: 3}
+  - {fileID: 21300000, guid: 280ff46c033332941a374bee754632f2, type: 3}
   - {fileID: 21300000, guid: 3db1cd9c099ac0141969487ca105dbe0, type: 3}
   - {fileID: 21300000, guid: 1881d50d27ba1e84280ec37f3675c0af, type: 3}
   - {fileID: 21300000, guid: 8eff7f7ddab8e044495d9ef57d8e388c, type: 3}
@@ -77,6 +78,7 @@ SpriteAtlas:
   - gold
   - fill-rounded-corner-x
   - eye-close
+  - checked
   - settings
   - smartphone
   - slider-fill

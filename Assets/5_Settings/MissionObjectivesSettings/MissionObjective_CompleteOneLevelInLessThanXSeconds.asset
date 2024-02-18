@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objective: 0
   description: Win a level in less than {0} seconds
+  descriptionProgress: '(Best: {0}s)'
   xPerLevelOnEasy:
     serializedVersion: 2
     m_Curve:

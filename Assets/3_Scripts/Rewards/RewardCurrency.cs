@@ -8,19 +8,25 @@ public class RewardCurrency : Reward
 {
     private CurrencyAmount _currencyAmount;
     
-    public RewardCurrency(Currency currency, int amount)
+    public RewardCurrency(Currency currency, int amount, bool collected) : base(collected)
     {
         _currencyAmount = new CurrencyAmount(currency, amount);
     }
     
-    public RewardCurrency(CurrencyAmount currencyAmount)
+    public RewardCurrency(CurrencyAmount currencyAmount, bool collected) : base(collected)
     {
         _currencyAmount = currencyAmount;
     }
 
-    public override void Consume(Player player)
+    public override void Collect()
     {
-        player.Wallet.Add(_currencyAmount);
+        if (_collected)
+        {
+            return;
+        }
+        _collected = true;
+        Player.Instance.Wallet.Add(_currencyAmount);
+        OnCollect?.Invoke();
     }
 
     public override void SetupUI(Image image, TMP_Text text)
@@ -31,6 +37,6 @@ public class RewardCurrency : Reward
 
     public override string ToData()
     {
-        return $"{_currencyAmount.Currency.SaveId}|{_currencyAmount}";
+        return $"{_currencyAmount.Currency.SaveId}|{_currencyAmount.amount}|{(_collected ? 1 : 0)}";
     }
 }

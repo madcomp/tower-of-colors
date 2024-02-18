@@ -45,6 +45,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     ParticleSystem tileExplosionFx;
 
+    [SerializeField] MissionsManager missionsManager;
+
     Animator animator;
 
     float minPercent = 0;
@@ -88,6 +90,7 @@ public class GameManager : Singleton<GameManager>
     {
         ballCount--;
         ballCountText.text = ballCount.ToString("N0");
+        missionsManager.OnBallShot();
         if (ballCount == 1) {
             oneBallRemaining.Play();
         }
@@ -108,6 +111,7 @@ public class GameManager : Singleton<GameManager>
         if (gameState == GameState.Playing || gameState == GameState.WaitingLose) {
             comboUI.CountCombo(tile.transform.position);
             destroyedTileCount++;
+            missionsManager.OnTileDisabled(tile);
             float p = (float)destroyedTileCount / tileCount;
             percentCounter.SetValueSmooth(p / minPercent);
             if (p >= minPercent) {
@@ -116,6 +120,7 @@ public class GameManager : Singleton<GameManager>
                 SaveData.CurrentLevel++;
                 SaveData.PreviousHighscore = 0;
                 SetGameState(GameState.Win);
+                missionsManager.OnGameWin();
                 if (SaveData.VibrationEnabled == 1)
                     Handheld.Vibrate();
             }
@@ -126,5 +131,6 @@ public class GameManager : Singleton<GameManager>
     {
         SetGameState(GameState.Playing);
         tower.StartGame();
+        missionsManager.OnGameStart();
     }
 }

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objective: 3
   description: Destroy {0} barrels in less than {1} seconds
+  descriptionProgress: '(Best: {0})'
   xPerLevelOnEasy:
     serializedVersion: 2
     m_Curve:

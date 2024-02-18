@@ -33,6 +33,8 @@ public class TowerTile : MonoBehaviour
     private bool initialized;
     private bool freezed;
 
+    public virtual bool IsExplosive() => false;
+    
     void OnEnable()
     {
         TileColorManager.Instance.OnColorListChanged += ResetColor;

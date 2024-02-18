@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objective: 1
   description: Win {0} levels
+  descriptionProgress: ({0} / {1})
   xPerLevelOnEasy:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
-      inSlope: 0.1
-      outSlope: 0.1
+      value: 2
+      inSlope: 0.06666667
+      outSlope: 0.06666667
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
@@ -29,8 +30,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 30
       value: 4
-      inSlope: 0.1
-      outSlope: 0.1
+      inSlope: 0.06666667
+      outSlope: 0.06666667
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334

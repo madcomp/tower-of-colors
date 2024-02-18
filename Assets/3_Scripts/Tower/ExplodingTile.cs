@@ -48,4 +48,6 @@ public class ExplodingTile : TowerTile
             }
         }
     }
+
+    public override bool IsExplosive() => true;
 }

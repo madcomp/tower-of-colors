@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class MissionsManager : MonoBehaviour
     [SerializeField] private RewardCurrencySettings[] rewardsCurrencySettings;
     [SerializeField] private MissionObjectiveSettings[] missionObjectivesSettings;
     [SerializeField] private PopupMissions popupMissions;
+    [SerializeField] private CurrencyUI[] currencyUis;
 
     Animator _animator;
     private Context _context;
@@ -22,9 +24,44 @@ public class MissionsManager : MonoBehaviour
     
     public void ShowPopup()
     {
-        popupMissions.Setup(_context, _missions);
         _popupVisible = true;
         _animator.SetBool("MissionsPopupVisible", _popupVisible);
+    }
+
+    public void OnBallShot()
+    {
+        foreach (var mission in _missions)
+        {
+            mission.OnBallShot();
+        }
+        SaveData.CurrentMissionsData = Mission.ToData(_missions);
+    }
+
+    public void OnGameStart()
+    {
+        foreach (var mission in _missions)
+        {
+            mission.OnGameStart();
+        }
+        SaveData.CurrentMissionsData = Mission.ToData(_missions);
+    }
+    
+    public void OnGameWin()
+    {
+        foreach (var mission in _missions)
+        {
+            mission.OnGameWin();
+        }
+        SaveData.CurrentMissionsData = Mission.ToData(_missions);
+    }
+    
+    public void OnTileDisabled(TowerTile tile)
+    {
+        foreach (var mission in _missions)
+        {
+            mission.OnTileDisabled(tile);
+        }
+        SaveData.CurrentMissionsData = Mission.ToData(_missions);
     }
     
     private void Awake()
@@ -33,10 +70,19 @@ public class MissionsManager : MonoBehaviour
         _animator.speed = 1.0f / Time.timeScale;
         _context = new Context(currencies, missionObjectivesSettings, rewardsCurrencySettings);
         LoadMissions();
+        Player.Instance.Wallet.Load(_context);
+        foreach (var currencyUI in currencyUis)
+        {
+            currencyUI.Setup();
+        }
     }
 
     void CreateMissions()
     {
+        foreach (var mission in _missions)
+        {
+            mission.Reward.OnCollect = null;
+        }
         _missions.Clear();
 
         var currentLevel = SaveData.CurrentLevel;
@@ -52,13 +98,19 @@ public class MissionsManager : MonoBehaviour
             var possibleCurrencyAmounts = chosenRewardCurrencySettings.PossibleCurrencyAmounts;
             var indexCurrencyAmount = UnityEngine.Random.Range(0, possibleCurrencyAmounts.Length);
             var currencyAmount = possibleCurrencyAmounts[indexCurrencyAmount];
-            var reward = new RewardCurrency(currencyAmount);
+            var reward = new RewardCurrency(currencyAmount, collected: false);
             
             var indexObjective = UnityEngine.Random.Range(0, availableMissionObjectivesSettings.Count);
             var chosenMissionObjectivesSettings = availableMissionObjectivesSettings.GetAndRemoveAt(indexObjective);
             var mission = Mission.Create(chosenMissionObjectivesSettings, difficulty, currentLevel, reward);
             _missions.Add(mission);
+
+            mission.Reward.OnCollect += OnCollectMissionReward;
         }
+
+        popupMissions.Setup(_context, _missions);
+        
+        SaveData.CurrentMissionsData = Mission.ToData(_missions);
     }
 
     void LoadMissions()
@@ -71,6 +123,35 @@ public class MissionsManager : MonoBehaviour
         else
         {
             _missions.AddRange(Mission.ParseData(_context, missionsData));
+            popupMissions.Setup(_context, _missions);
+            foreach (var mission in _missions)
+            {
+                mission.Reward.OnCollect += OnCollectMissionReward;
+            }
         }
+    }
+
+    void OnCollectMissionReward()
+    {
+        if (AllMissionsCollected())
+        {
+            CreateMissions();
+        }
+        else
+        {
+            SaveData.CurrentMissionsData = Mission.ToData(_missions);
+        }
+    }
+
+    bool AllMissionsCollected()
+    {
+        foreach (var mission in _missions)
+        {
+            if (!mission.Reward.IsCollected())
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

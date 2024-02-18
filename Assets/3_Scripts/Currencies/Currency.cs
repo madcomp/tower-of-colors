@@ -7,7 +7,10 @@ public class Currency : ScriptableObject
 {
     [SerializeField] private int saveId;
     [SerializeField] private string currencyName;
+    [SerializeField] private Color color;
     [SerializeField] private Sprite sprite;
+    
+    public Color Color => color;
     
     public string CurrencyName => currencyName;
     

@@ -15,6 +15,7 @@ public class MissionObjectiveSettingsEditor : Editor
         Mission.Objective objective = (Mission.Objective)propertyObjective.intValue;
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("description"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("descriptionProgress"));
         
         EditorGUILayout.LabelField(string.Empty, GUI.skin.horizontalSlider);
         

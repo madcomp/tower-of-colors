@@ -56,10 +56,21 @@ public static class SaveData
     public static string CurrentMissionsData
     {
         get {
-            return PlayerPrefs.GetString("MissionsData", "");
+            return PlayerPrefs.GetString("CurrentMissionsData", "");
         }
         set {
-            PlayerPrefs.SetString("MissionsData", value);
+            PlayerPrefs.SetString("CurrentMissionsData", value);
+            PlayerPrefs.Save();
+        }
+    }
+    
+    public static string WalletData
+    {
+        get {
+            return PlayerPrefs.GetString("WalletData", "");
+        }
+        set {
+            PlayerPrefs.SetString("WalletData", value);
             PlayerPrefs.Save();
         }
     }

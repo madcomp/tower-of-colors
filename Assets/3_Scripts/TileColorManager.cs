@@ -13,7 +13,15 @@ public class TileColorManager : Singleton<TileColorManager>
     Color currentDisabledColor;
 
     public int ColorCount { get; private set; }
-    public Color GetColor(int index) => currentColorList[shuffledIndexes[index]];
+
+    public Color GetColor(int index)
+    {
+        if (currentColorList == null)
+        {
+            return Color.white;
+        }
+        return currentColorList[shuffledIndexes[index]];   
+    }
     public Color GetDisabledColor() => currentDisabledColor;
 
     public System.Action OnColorListChanged;

@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveId: 1
   currencyName: Gold
+  color: {r: 0.57254905, g: 0.57254905, b: 0.1882353, a: 1}
   sprite: {fileID: 21300000, guid: 903c0cb970eaf4a45a87b4d81f1a2910, type: 3}
